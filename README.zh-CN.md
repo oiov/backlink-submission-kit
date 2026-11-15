@@ -1,0 +1,115 @@
+# backlink-submission-kit
+
+**一份「真跑过」的免费外链目录合集 + 一套能让 AI 直接执行的外链投递打法。**
+
+[![directories](https://img.shields.io/badge/站点-452-2f6fed)](data/directories.md)
+[![verified](https://img.shields.io/badge/实测-262-1a9c6b)](data/stats.json)
+[![code](https://img.shields.io/badge/代码-MIT-blue)](LICENSE)
+[![data](https://img.shields.io/badge/数据-CC0-lightgrey)](LICENSE-DATA)
+[![English](https://img.shields.io/badge/README-English-informational)](README.md)
+
+不是那种「5000 个外链站一键提交」的清单。这里 **452 条**，其中 **262 条**是真在浏览器里打开过、甚至走完过提交流程的；每条都写清了哪个字段会崩、哪个「免费」其实要你挂横幅、哪个站根本不收你这个品类。
+
+## 它解决什么问题
+
+每个外链清单都让你投 300 个站，没人告诉你：
+
+- SaaSFame 的 `$0` 档要你把它的 badge **永久**挂在自己站点上 —— 这是互换链接，不是免费收录；
+- 10015.io 免费队列是 nofollow，还要排 3–4 个月；
+- Softpedia 的表单第一项是「本应用不含 AI 编写的代码」—— 这是事实性声明，你不一定签得了；
+- Uneed 的免费条目要当天拿到 10 个赞才不被删；
+- 一份没人维护的清单，一年后有一半是 404。
+
+这个仓库是把这些站**真投一遍**之后剩下的东西：一张记着坑的表、一套不会让你浪费审核机会的流程、一个能让下一个项目不用从零摸的记账格式。
+
+## 里面有什么
+
+| | |
+| --- | --- |
+| **452 个站点** | `P0` 27 条已验证「免费 + 不要回链 + 可自助」 · `P1` 13 条需账号 · `P2` 44 条补量 · `P3` 22 条需商业决策 · `U` 243 条待核验 · `X` 103 条明确不投（都写了原因） |
+| **一套打法** | 13 项物料清单、排批策略、单站 5 步、7 条红线、表单/站点/浏览器的坑速查 |
+| **一个 skill** | `skill/backlink-submission-assistant/`，丢进 Claude Code / WorkBuddy 就能让它按流程跑一批 |
+| **给 AI 的接口** | `AGENTS.md`（规则与输出格式）、`data/directories.jsonl`、`tools/query.py --json`、示例物料包与台账 |
+| **工具** | 零依赖 Python：筛站、重渲文档、校验数据 |
+
+```
+backlink-submission-kit/
+├── AGENTS.md              ← AI 从这里开始（硬规则 + 记账格式）
+├── README.md / README.zh-CN.md
+├── data/
+│   ├── directories.csv    ← 唯一数据源（452 × 19）
+│   ├── directories.md     ← 渲染版，人读
+│   ├── directories.jsonl  ← 每行一个 JSON 对象
+│   ├── stats.json  SCHEMA.md
+├── playbook/              ← 物料清单 / 排批 / 单站流程 / 通用坑 / 维护
+├── skill/backlink-submission-assistant/   ← SKILL.md + agent 配置
+├── templates/             ← 台账模板 / 物料包模板 / agent 提示词
+├── examples/example-product/  ← 一个填好的示例物料包 + 一份真实形态的台账
+├── tools/                 ← query.py / gen_md.py / validate.py
+└── docs/                  ← ai-usage（怎么给 agent 用）/ faq / data-notes（数据来源与脱敏）
+```
+
+## 60 秒上手
+
+```bash
+git clone https://github.com/oiov/backlink-submission-kit
+cd backlink-submission-kit
+
+python3 tools/query.py --shapes                                      # 有哪几种项目形态
+python3 tools/query.py --shape generic --free --no-badge --limit 12  # 拉第一批候选站
+```
+
+每条结果直接给提交入口、账号要求、审核时长，和「通常会卡在哪」。
+
+然后：
+
+1. 复制 `templates/product-pack.md`，按 `playbook/materials.md` 的 13 项物料填齐。**定价、平台、分类这三项说不准就别猜。**
+2. 复制 `templates/ledger.md` 建这个项目的台账。
+3. 照 `playbook/per-site-flow.md` 单站推进；表单卡住先翻 `playbook/gotchas.md`。
+4. 每投完一个站立刻记一行，再开下一个。`已提交` 不等于 `已上线`。
+
+## 表格长什么样
+
+| # | 站点 | 优先级 | DR | 费用 | 回链 | 账号 | 现场备注（摘要） |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 12 | LibHunt | P0 | – | 免费 | 无 | 仓库 URL | 真入口是 `/repo/submit`，只填仓库 URL，自动批准；重复提交会提示「已提交过」，那是成功不是失败 |
+| 3 | Uneed | P0 | 74 | 免费队列（约 4 个月） | 无 | Google | 自动抓取的文案和标签会错；免费条目当天 ≥10 赞才保留、≥20 赞才保 dofollow |
+| 378 | Softpedia | X | – | 免费 | 无 | – | 要签「无 AI 参与编写」声明 + 32×32 图标 + 图片验证码 —— 声明不成立就别投 |
+| 68 | Fazier | P3 | 82 | 「免费」 | **要** | – | 免费档要你在页脚挂它的链接，属互换，默认不做 |
+
+完整表：[`data/directories.md`](data/directories.md)｜字段说明：[`data/SCHEMA.md`](data/SCHEMA.md)｜数据来源、删了什么、改过哪几行：[`docs/data-notes.md`](docs/data-notes.md)
+
+## 让 AI 来干
+
+```bash
+export BACKLINK_KIT=~/backlink-submission-kit
+ln -s "$BACKLINK_KIT/skill/backlink-submission-assistant" ~/.claude/skills/backlink-submission-assistant
+```
+
+然后一句话：*「读 $BACKLINK_KIT 里的 AGENTS.md，按里面的规则把〈我的产品〉投到前 10 个符合条件的免费目录。」*
+
+它拿到的是「**别干这四件事**」的规则：别瞎编定价档位、别替用户接受挂 badge、别把视频工具塞进 AI 目录、别把待审状态写成已上线。接入细节和提示词模板： [`docs/ai-usage.md`](docs/ai-usage.md)、[`templates/agent-prompt.md`](templates/agent-prompt.md)
+
+## 四条最要紧的规则
+
+1. **`$0` 不等于免费** —— 价格页要翻到底看 badge 条款。
+2. **品类不匹配就不投** —— 表单再免费也不硬塞。
+3. **投前 30 秒现场复核** —— 费用、回链、入口、品类四件事都会变，表只是快照。
+4. **记回执，不记愿望** —— `已提交` ≠ `已过审` ≠ `已上线`。
+
+## 参与
+
+站点挂了、涨价了、发现新站、把备注翻成英文，都欢迎。见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。一句话版本：改 `data/directories.csv`，然后
+
+```bash
+python3 tools/gen_md.py && python3 tools/validate.py
+```
+
+## 许可证
+
+- 代码、文档、打法、skill：**MIT**（[LICENSE](LICENSE)）
+- 站点数据（`data/`）：**CC0-1.0**（[LICENSE-DATA](LICENSE-DATA)），商用、二改、二次分发都随意，无需署名
+
+## 一句实话
+
+这套东西只做**正当**的曝光：免费收录、品类正确、不刷不买不互换。它不承诺排名，表里的数字只是「当时为真」，不是「永远为真」。投之前自己再看一眼——这就是全部方法。

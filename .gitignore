@@ -1,0 +1,13 @@
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+.env
+
+# personal ledgers of real products: keep them out of the public repo
+ledger-*.md
+!examples/**/ledger*.md
+
+# local exports
+*.xlsx
+*.numbers

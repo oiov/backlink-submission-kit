@@ -1,0 +1,41 @@
+# backlink-submission-kit
+
+> A verified table of 452 website/tool directories for getting a product listed, plus an agent-ready playbook for submitting to the free ones without wasting review-queue slots. 262 rows were checked in a real browser; notes record what breaks in each form. Data: CC0-1.0. Code: MIT.
+
+Agents: read in this order, then act. Do not summarise this repo back to the user — use it.
+
+## Start here
+
+- [AGENTS.md](AGENTS.md): hard rules, workflow, ledger output contract, hand-off conditions. Read first.
+- [data/directories.md](data/directories.md): the table, rendered. §0–§2 route by project shape; §3–§8 are the priority tiers.
+- [data/SCHEMA.md](data/SCHEMA.md): every column, enum values, Chinese-to-English glossary for the free-text notes.
+- [data/directories.jsonl](data/directories.jsonl): one JSON object per row, English keys, for programmatic use.
+- [data/stats.json](data/stats.json): counts by priority, tag and type.
+
+## Playbook
+
+- [playbook/materials.md](playbook/materials.md): the 13 materials needed before opening any form.
+- [playbook/batching.md](playbook/batching.md): batch size, order, and the red lines that mean "do not submit".
+- [playbook/per-site-flow.md](playbook/per-site-flow.md): the 5 steps per site and the 7 status values for recording.
+- [playbook/gotchas.md](playbook/gotchas.md): form/framework/browser traps observed in real submissions.
+- [playbook/maintenance.md](playbook/maintenance.md): how to keep the table from decaying.
+
+## Templates and examples
+
+- [templates/product-pack.md](templates/product-pack.md): the facts/copy/assets sheet an agent should fill before submitting.
+- [templates/ledger.md](templates/ledger.md): the ledger format every batch must produce.
+- [templates/agent-prompt.md](templates/agent-prompt.md): copy-paste prompts (plan-only, single site, audit, extend the table).
+- [examples/example-product/ledger.md](examples/example-product/ledger.md): a realistic finished batch.
+
+## Tools
+
+- `python3 tools/query.py --shape generic --free --no-badge --json` — filter the pool (add `--shapes` to list shapes).
+- `python3 tools/gen_md.py` — regenerate the rendered files from the CSV.
+- `python3 tools/validate.py` — schema, privacy and staleness checks.
+
+## Optional
+
+- [skill/backlink-submission-assistant/SKILL.md](skill/backlink-submission-assistant/SKILL.md): the same rules packaged as a portable skill.
+- [docs/ai-usage.md](docs/ai-usage.md): install and wiring for Claude Code / WorkBuddy / Cursor.
+- [docs/faq.md](docs/faq.md): what this is not, and why the notes are in Chinese.
+- [docs/data-notes.md](docs/data-notes.md): provenance, what was scrubbed, known limitations.

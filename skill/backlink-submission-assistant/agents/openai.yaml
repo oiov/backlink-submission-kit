@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backlink Submission Assistant"
+  short_description: "Qualify and track free directory submissions from a verified 452-row site table"
+  default_prompt: "Use the backlink-submission-kit in this workspace: pick eligible free directories for my product, submit through the free path, and record every result with a receipt."

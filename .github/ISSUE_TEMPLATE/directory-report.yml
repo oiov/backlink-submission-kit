@@ -1,0 +1,57 @@
+name: Directory report
+description: A site is dead, changed its price, now requires a badge, or rejects a category
+title: "[report] <domain> — <what changed>"
+labels: ["data"]
+body:
+  - type: input
+    id: domain
+    attributes:
+      label: Domain
+      description: Bare domain as it appears in data/directories.csv
+      placeholder: example.com
+    validations:
+      required: true
+  - type: input
+    id: row
+    attributes:
+      label: Row id (optional)
+      description: The `#id` from data/directories.md
+      placeholder: "312"
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What happened
+      options:
+        - Entry point dead (404 / cert error / closed)
+        - Free tier removed or moved behind a paywall
+        - Now requires a badge or reciprocal backlink
+        - Category does not fit (rejects my kind of product)
+        - Requires a declaration I cannot sign
+        - New verified submission route
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: What you saw
+      description: Quote the page text or URL. "看起来要收费" is not enough — say where you saw it.
+      placeholder: "Pricing page, second screen: 'Free plan requires our badge installed permanently'. Checked 2026-11-20."
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Date checked
+      placeholder: "2026-11-20"
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirm
+      options:
+        - label: I actually opened the site and did not rely on a third-party list
+          required: true
+        - label: This report contains no personal data (my email, account handle, screenshots with names)
+          required: true
