@@ -24,7 +24,7 @@
 
 ## 里面有什么
 
-| | |
+| 组件 | 内容 |
 | --- | --- |
 | **452 个站点** | `P0` 27 条已验证「免费 + 不要回链 + 可自助」 · `P1` 13 条需账号 · `P2` 44 条补量 · `P3` 22 条需商业决策 · `U` 243 条待核验 · `X` 103 条明确不投（都写了原因） |
 | **一套打法** | 13 项物料清单、排批策略、单站 5 步、7 条红线、表单/站点/浏览器的坑速查 |
@@ -36,17 +36,14 @@
 backlink-submission-kit/
 ├── AGENTS.md              ← AI 从这里开始（硬规则 + 记账格式）
 ├── README.md / README.zh-CN.md
-├── data/
-│   ├── directories.csv    ← 唯一数据源（452 × 19）
-│   ├── directories.md     ← 渲染版，人读
-│   ├── directories.jsonl  ← 每行一个 JSON 对象
-│   ├── stats.json  SCHEMA.md
+├── data/                  ← CSV（唯一数据源）+ 渲染版 MD/JSONL/统计 + 字段字典
 ├── playbook/              ← 物料清单 / 排批 / 单站流程 / 通用坑 / 维护
 ├── skill/backlink-submission-assistant/   ← SKILL.md + agent 配置
 ├── templates/             ← 台账模板 / 物料包模板 / agent 提示词
 ├── examples/example-product/  ← 一个填好的示例物料包 + 一份真实形态的台账
 ├── tools/                 ← query.py / gen_md.py / validate.py
-└── docs/                  ← ai-usage（怎么给 agent 用）/ faq / data-notes（数据来源与脱敏）
+├── docs/                  ← ai-usage / faq / data-notes（数据来源与脱敏）
+└── llms.txt               ← 给 AI 的入口索引
 ```
 
 ## 60 秒上手

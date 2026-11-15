@@ -26,7 +26,7 @@ This repo is what is left after running those submissions for real: a table with
 
 ## What is in the box
 
-| | |
+| Component | What you get |
 | --- | --- |
 | **452 directories** | `P0` 27 proven free + no badge + self-serve · `P1` 13 need an account · `P2` 44 volume · `P3` 22 need a business decision · `U` 243 unverified · `X` 103 ruled out with reasons |
 | **A playbook** | materials checklist, batch strategy, 5-step per-site flow, red lines, and the form/browser traps that eat hours |
@@ -38,17 +38,14 @@ This repo is what is left after running those submissions for real: a table with
 backlink-submission-kit/
 ├── AGENTS.md              ← agents start here (rules + output contract)
 ├── README.md / README.zh-CN.md
-├── data/
-│   ├── directories.csv    ← single source of truth (452 × 19)
-│   ├── directories.md     ← rendered, human-readable
-│   ├── directories.jsonl  ← one JSON object per row
-│   ├── stats.json  SCHEMA.md
+├── data/                  ← CSV (source of truth) + rendered MD/JSONL/stats + SCHEMA
 ├── playbook/              ← materials, batching, per-site flow, gotchas, maintenance
 ├── skill/backlink-submission-assistant/   ← SKILL.md + agent config
 ├── templates/             ← ledger, product pack, agent prompt
 ├── examples/example-product/  ← a filled pack + a realistic finished ledger
 ├── tools/                 ← query.py, gen_md.py, validate.py
-└── docs/                  ← ai-usage, faq, data-notes
+├── docs/                  ← ai-usage, faq, data-notes
+└── llms.txt               ← machine-friendly index of the above
 ```
 
 ## 60-second start
