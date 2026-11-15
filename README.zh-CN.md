@@ -81,11 +81,30 @@ python3 tools/query.py --shape generic --free --no-badge --limit 12  # 拉第一
 ```bash
 export BACKLINK_KIT=~/backlink-submission-kit
 ln -s "$BACKLINK_KIT/skill/backlink-submission-assistant" ~/.claude/skills/backlink-submission-assistant
+ln -s "$BACKLINK_KIT/skill/backlink-submission-assistant" ~/.workbuddy/skills/backlink-submission-assistant
 ```
 
 然后一句话：*「读 $BACKLINK_KIT 里的 AGENTS.md，按里面的规则把〈我的产品〉投到前 10 个符合条件的免费目录。」*
 
 它拿到的是「**别干这四件事**」的规则：别瞎编定价档位、别替用户接受挂 badge、别把视频工具塞进 AI 目录、别把待审状态写成已上线。接入细节和提示词模板： [`docs/ai-usage.md`](docs/ai-usage.md)、[`templates/agent-prompt.md`](templates/agent-prompt.md)
+
+## 实践心得：用 WorkBuddy 真跑起来是什么样
+
+这套东西不是先写好再去用的，是反过来的：五个产品、262 个站在浏览器里真开过，填表的大部分活儿是 WorkBuddy 开着一个已登录的浏览器窗口干的。下面六条，是决定「这一轮有没有白干」的关键。
+
+**1. 把仓库指给 agent，别把规则粘给它。** 一句话就够：*「读 `$BACKLINK_KIT` 里的 `AGENTS.md`，然后把 `./pack.md` 这份物料包投到接下来 10 个符合条件的 P0 站。」* 规则写在文件里，改一次，以后每一轮都继承；粘在 prompt 里，下一轮就没了，还会越粘越走形。
+
+**2. 一批 8–12 个，别一次给 30 个。** 每批必然会撞上一个收验证邮件、一个图片验证码、一个跳到你没见过的控制台。超过十几个之后，agent 会为了「跑完这一批」开始省掉记账那一步 —— 这是最坏的交换：台账丢了，没核实的「已提交」全留着。
+
+**3. 已登录的浏览器是整套流程的关键。** 一半以上的免费目录把表单藏在 Google / GitHub 登录后面。有持久的浏览器会话，agent 直接到表单；没有的话，每批前二十分钟都在过 OAuth，剩下一半时间在「请先登录」。
+
+**4. 一个专用邮箱，并且让 agent 能读它。** 所有投递统一用一个通用邮箱；站点发确认链接过来，就让它在同一个浏览器里打开那个收件箱把闭环走完。如果 agent 一遇到「验证邮件已发送」就停下，瓶颈就变成了你，这一批基本死在那。两个相关的坑：少数目录把域名邮箱当成自我推广信号、审得更严；还有几家要 DNS TXT 证明域名归属 —— 最后一个确实得你自己来。
+
+**5. 台账才是交付物，收录不是。** agent 会在点下提交按钮的那一刻愉快地报告「完成」。所以要求它每投完一个站在开下一个表单之前写一行：状态、入口 URL、填了什么、还差什么。`已提交` ≠ `已过审` ≠ `已上线`。两周之后，那个文件是唯一能告诉你「四十个提交里哪些还压在队列里」的东西。
+
+**6. 有四件事必须交回给人：** 要挂 badge、要签声明（比如 Softpedia 那句「无 AI 编写代码」）、伪装成免费但要付费、要域名归属证明。这四种 agent 只停下问，不做决定 —— 这是 `AGENTS.md` 里的硬规则，也是其余部分还能算「正当曝光」而不是 spam 的原因。
+
+这些跟 WorkBuddy 本身没多大关系，任何带浏览器和文件系统的 agent 都适用。只是这张表是在这套环境里长出来的。如果你也用 WorkBuddy，skill 的安装方式和上一节一样（`~/.workbuddy/skills/`），`docs/ai-usage.md` 里有实测有效的提示词写法。
 
 ## 四条最要紧的规则
 

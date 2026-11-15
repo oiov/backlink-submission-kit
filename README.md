@@ -83,11 +83,30 @@ Full table: [`data/directories.md`](data/directories.md) · fields: [`data/SCHEM
 ```bash
 export BACKLINK_KIT=~/backlink-submission-kit
 ln -s "$BACKLINK_KIT/skill/backlink-submission-assistant" ~/.claude/skills/backlink-submission-assistant
+ln -s "$BACKLINK_KIT/skill/backlink-submission-assistant" ~/.workbuddy/skills/backlink-submission-assistant
 ```
 
 Then: *"Read AGENTS.md in $BACKLINK_KIT and submit my product (pack: …) to the first 10 eligible free directories."*
 
 The agent gets the rules it needs to **not** do the four things agents do by default: invent a pricing tier, accept a badge requirement, submit a video tool to an AI directory, and report "published" for a pending review. Details and prompt templates: [`docs/ai-usage.md`](docs/ai-usage.md), [`templates/agent-prompt.md`](templates/agent-prompt.md).
+
+## Field notes: what it looks like to run this with WorkBuddy
+
+This kit wasn't written first and used afterwards. It is the residue of doing it: five products, 262 sites actually opened in a browser, most of the form-filling done by WorkBuddy driving a logged-in browser window. Six things that decided whether a session was productive:
+
+**1. Point the agent at the repo instead of pasting rules.** One line — *"read `AGENTS.md` at `$BACKLINK_KIT`, then submit the pack in `./pack.md` to the next 10 eligible `P0` sites"* — beats a three-paragraph prompt. The rules live in a file, so you fix them once and every later session inherits the fix. Pasted rules rot; the repo doesn't.
+
+**2. Batch 8–12 sites, not 30.** Every batch of size runs into at least one email verification, one image captcha, and one site that redirects to a dashboard you have never seen. Past roughly a dozen, the agent starts skipping the record-keeping to "finish the batch" — the worst possible trade, because you lose the ledger and keep the unverified claims.
+
+**3. The logged-in browser is the whole trick.** More than half of the free directories hide the form behind Google or GitHub login. With a persistent browser session, the agent goes straight to the form; without one, you spend the first twenty minutes of every batch on OAuth and half the batch on "please sign in first".
+
+**4. One dedicated mailbox, and let the agent read it.** Use a single generic address for every submission, and when a site sends a confirmation link, let the agent open that inbox in the same browser and finish the loop. If the agent has to stop at "verification email sent", you become the bottleneck and the batch dies there. Two related traps: a handful of directories treat a domain address as a signal of self-promotion and review it harder, and a few require DNS TXT proof of domain ownership — that last one genuinely is yours to do.
+
+**5. The ledger is the deliverable, not the listing.** Agents will cheerfully report "done" the moment the submit button is clicked. Insist on one row per site, written *before* the next form opens: status, entry URL, what was filled, what is still pending. `submitted` ≠ `accepted` ≠ `live`. Two weeks later that file is the only record of which of your forty submissions are still sitting in a queue.
+
+**6. Four things always come back to you:** a badge requirement, a declaration you must sign (Softpedia's "no AI-written code"), a paid tier dressed up as free, and domain-ownership proof. The agent stops and asks on those; it does not decide. That is a hard rule in `AGENTS.md`, and it is what keeps the rest of the work legitimate rather than spam.
+
+None of this is specific to WorkBuddy — it applies to any agent with a browser and a filesystem. This is simply the setup the table was built and tested on. If you are on WorkBuddy, the skill installs the same way as in the section above (`~/.workbuddy/skills/`), and `docs/ai-usage.md` has the prompt shapes that worked.
 
 ## The four rules that matter
 
