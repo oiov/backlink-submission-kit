@@ -1,0 +1,22 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate CSV schema, privacy and generated files
+        run: python3 tools/validate.py
+      - name: Smoke-test the query tool
+        run: |
+          python3 tools/query.py --shapes
+          python3 tools/query.py --shape generic --free --no-badge --limit 3 --brief
+          python3 tools/query.py --ids 1,12 --json > /dev/null
